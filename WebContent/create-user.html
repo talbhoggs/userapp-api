@@ -1,0 +1,45 @@
+
+<div class="col-md-6 col-md-offset-3 col-xs-12">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+        <span>Create</span>
+    </div>
+    <div class="panel-body">
+      <p class="text-success pull-right"><span ng-bind="vm.message"></span></p>
+      <p class="text-danger pull-right"></p>
+
+      <form novalidate="novalidate" name="createForm" ng-submit="vm.save(createForm)">
+        <div class="form-group"
+        ng-class="{'has-error' : !createForm.firstname.$valid && createForm.$submitted}">
+          <label for="firstname">First Name*</label> <span class="pull-right text-danger" ng-show="!createForm.firstname.$valid && createForm.$submitted"><i>Please enter your first name</i></span>
+          <input type="text" class="form-control" name="firstname" placeholder="First Name" ng-model="vm.formData.firstName" required="required">
+        </div>
+        <div class="form-group"
+        ng-class="{'has-error' : !createForm.lastname.$valid && createForm.$submitted}">
+          <label for="lastname">Last Name*</label> <span class="pull-right text-danger" ng-show="!createForm.lastname.$valid && createForm.$submitted"><i>Please enter your last name</i></span>
+          <input type="text" class="form-control" name="lastname" placeholder="Last Name" ng-model="vm.formData.lastName" required="required">
+        </div>
+       
+        <div class="form-group" 
+             ng-class="{'has-error' : !createForm.dob.$valid && createForm.$submitted}">
+          <label for="dob">Date of Birth*</label>  <span class="pull-right text-danger" ng-show="!createForm.dob.$valid && createForm.$submitted"><i>Please enter your Date of Birth</i></span>
+          <input type="date" class="form-control" name="dob" placeholder="date" ng-model="vm.formData.dob" required="required">
+          
+        </div>
+        
+        <div class="form-group">
+          <label for="exampleInputFile">File input</label>
+          <input type="file" id="exampleInputFile" ng-disabled="true">
+          <p class="help-block">Upload your profile picture</p>
+        </div>
+
+        
+        <button type="submit" class="btn btn-primary btn-block">Save</button>
+       
+  
+        
+      </form>
+
+    </div>
+  </div>
+</div>

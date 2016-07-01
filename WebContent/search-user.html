@@ -1,0 +1,103 @@
+         <div class="col-md-8">
+
+                  <form class="form-inline well well-sm" >
+
+                   
+	                    Total records <span ng-bind="vm.userservice.totalRecords"></span> : Page 
+	                    <span ng-bind="vm.userservice.page"></span> of <span ng-bind="vm.userservice.numberOfPages()"></span>
+	                    
+	                    <div class="form-group pull-right" >
+	                      <input type="text"
+	                             class="form-control"
+	                             id="name"
+	                             ng-model="search"
+	                             ng-model-options="{debounce : 500}"
+	                             placeholder="Search"/>
+	                    </div >
+	                    <div class="clearfix" ></div >
+
+                  </form>
+                  <p class="text text-center" ng-if="vm.userservice.loading">Loading ...</p>
+                  <table class="table table-condensed table-bordered" ng-if="!vm.userservice.loading">
+
+                      <thead>
+                        <th>#</th>
+                        <th ng-click="vm.sortBy('firstName')">First Name <span ng-show="vm.sortPredicate == 'firstName'" ng-class= "{'glyphicon glyphicon-chevron-up': !vm.sortFlag, 'glyphicon glyphicon-chevron-down': vm.sortFlag}"  aria-hidden="true"></span></th>
+                        <th ng-click="vm.sortBy('lastName')">Last Name <span ng-show="vm.sortPredicate == 'lastName'" ng-class= "{'glyphicon glyphicon-chevron-up': !vm.sortFlag, 'glyphicon glyphicon-chevron-down': vm.sortFlag}"  aria-hidden="true"></span></th>
+                        <th>Date of Birth</th>
+                      </thead>
+                      <body>
+                        <tr ng-class="{'success': $index == vm.selectedIndex}" ng-repeat="user in vm.userservice.usersArray" ng-click="vm.selectedRow($index, user)">
+                          <td><span ng-bind="user.id"></span></td>
+                          <td><span ng-bind="user.firstName"></span></td>
+                          <td><span ng-bind="user.lastName"></span></td>
+                          <td><span ng-bind="user.dob | date"></span></td>
+                        </tr>
+
+
+                      </body>
+                  </table>
+
+
+
+
+                    <ul class="pager">
+                      <li ng-show="vm.userservice.prev"  class="previous"><a href="" ng-click="vm.userservice.prevPage()" aria-label="Previous"><span aria-hidden="true">&larr;</span> Previous</a></li> 
+                      <!--
+                      <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                      <li><a href="#">2 <span class="sr-only"></span></a></li>
+                      <li><a href="#">3<span class="sr-only"></span></a></li>
+                      <li><a href="#">4 <span class="sr-only"></span></a></li>
+                      -->
+                      <li ng-show="vm.userservice.next" class="next"><a href="" ng-click="vm.userservice.nextPage()" aria-label="Next">Next <span aria-hidden="true">&rarr;</span></a></li> 
+                    </ul>
+
+
+         </div>
+          <div class="col-md-4">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span ng-disabled="vm.selectedUser==null">Edit</span>
+                    <span ng-disabled="vm.selectedUser==null" class="pull-right" ng-click="vm.remove()">Delete</span>
+                </div>
+                <div class="panel-body">
+                  <p class="text-success pull-right"><span ng-bind="vm.message"></p>
+
+                  <form novalidate="novalidate" name="editForm" ng-submit="vm.save(editForm)">
+                    <div class="form-group" name="formEdit" ng-class="{'has-error' : !editForm.firstname.$valid && editForm.$submitted}">
+                      <label for="firstname">First Name</label>
+                      <input type="text" class="form-control" name="firstname" placeholder="First Name"
+                      			 required="required"
+                             ng-model="vm.selectedUser.firstName"
+                             ng-disabled="vm.selectedUser==null">
+          									<p class="pull-right" ng-show="!editForm.firstname.$valid && editForm.$submitted">Enter your given name.</p>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error' : !editForm.lastname.$valid && editForm.$submitted}">
+                      <label for="lastname">Last Name</label>
+                      <input type="text" class="form-control" name="lastname" placeholder="Last Name" 
+                      			 required="required"
+                             ng-model="vm.selectedUser.lastName"
+                             ng-disabled="vm.selectedUser==null">
+                             <p class="pull-right" ng-show="!editForm.lastname.$valid && editForm.$submitted">Enter your surname (family name).</p>
+                    </div>
+
+                    <div class="form-group" ng-class="{'has-error' : !editForm.dob.$valid && editForm.$submitted}">
+                      <label for="dob">Date of Birth</label>
+                      <input type="date" class="form-control" name="dob" placeholder="date" 
+                             required="required"
+                             ng-model="vm.selectedUser.dob"
+                             ng-disabled="vm.selectedUser==null">
+                      <p class="pull-right" ng-show="!editForm.dob.$valid && editForm.$submitted">Date of birth is required</p>
+                    </div>
+                    <br />
+                    <button type="submit" class="btn btn-primary"
+                            ng-disabled="vm.selectedUser==null" >Save</button>
+                    <!--<button ng-click="vm.clear()" ng-disabled="vm.selectedUser==null" type="submit" class="btn btn-default pull-right">Clear</button>-->
+
+                  </form>
+
+                </div>
+              </div>
+
+          </div>
+
